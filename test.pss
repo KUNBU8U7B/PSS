@@ -1,0 +1,45 @@
+program test_program
+    # PSS v1.0 Core Features Test
+
+    # Part 1: Variables and Basic Arithmetic
+    number x = 10
+    number y = 20
+    number z = x + y
+    print "z =", z
+
+    decimal pi = 3.14
+    decimal r = 5.0
+    decimal luas = pi * r * r
+    print "luas =", luas
+
+    # Part 1: If Statement
+    if z > 25:
+        print "z is greater than 25"
+    else:
+        print "z is not greater than 25"
+
+    # Part 1: Repeat Loop
+    number i = 1
+    repeat 3 times:
+        print "Iteration", i
+        i = i + 1
+
+    # Part 2: Function
+    function hitung(a, b) -> number:
+        return a * b + 5
+
+    number hasil = hitung(3, 4)
+    print "hasil fungsi =", hasil
+
+    # Part 2: Class
+    class Player:
+        number hp = 100
+        
+        function take_damage(x) -> void:
+            hp = hp - x
+            print "Player hp:", hp
+
+    Player p = new Player()
+    p.take_damage(20)
+
+end

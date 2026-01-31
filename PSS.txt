@@ -1,0 +1,2551 @@
+==================================================
+PSS LANGUAGE SPECIFICATION
+PART 1 – CORE FOUNDATION
+(Simple Programming Script)
+==================================================
+
+Dokumen ini menjelaskan dasar bahasa PSS dari nol
+hingga dapat diparse, dijalankan, dan diuji.
+Tidak mencakup function lanjutan dan OOP.
+Semua aturan di PART 1 bersifat WAJIB.
+
+
+==================================================
+1. FILOSOFI BAHASA
+==================================================
+
+PSS (Simple Programming Script) adalah bahasa
+pemrograman sederhana berbasis indentasi.
+
+Tujuan utama:
+- Mudah dipelajari
+- Sintaks bersih
+- Mudah ditranspile ke C
+- Mudah dianalisis oleh AI
+
+PSS dirancang agar:
+- Tidak memakai tanda {} untuk block
+- Menggunakan indent + ':' seperti Python
+- Satu statement per baris
+
+
+==================================================
+2. STRUKTUR PROGRAM
+==================================================
+
+Setiap program PSS HARUS:
+
+1. Diawali dengan keyword `program`
+2. Diakhiri dengan keyword `end`
+
+Bentuk umum:
+
+program <nama_program>
+    <isi_program>
+end
+
+Contoh VALID:
+program demo
+    print "halo"
+end
+
+Contoh TIDAK VALID:
+print "halo"
+(end tidak ada)
+
+
+==================================================
+3. BARIS & KOMENTAR
+==================================================
+
+- Satu baris = satu statement
+- Baris kosong diabaikan
+- Komentar diawali dengan '#'
+
+Contoh:
+# ini komentar
+number x = 10   # komentar di akhir baris
+
+
+==================================================
+4. WHITESPACE & INDENTASI
+==================================================
+
+PSS adalah INDENT-BASED LANGUAGE.
+
+Aturan indent:
+- Indent menggunakan SPASI
+- 1 level indent = 4 spasi
+- Tab TIDAK disarankan
+
+Indent menentukan:
+- Awal block
+- Akhir block
+
+Kesalahan indent = SYNTAX ERROR
+
+
+==================================================
+5. KEYWORD RESMI
+==================================================
+
+Keyword yang dilindungi:
+
+program
+end
+number
+decimal
+string
+bool
+byte
+print
+if
+else
+repeat
+times
+true
+false
+
+Keyword TIDAK boleh dipakai sebagai nama variabel.
+
+
+==================================================
+6. IDENTIFIER
+==================================================
+
+Aturan identifier:
+- Huruf (a-z, A-Z)
+- Angka (0-9)
+- Underscore (_)
+- Tidak boleh diawali angka
+
+Contoh VALID:
+x
+nilai
+total_harga
+
+Contoh TIDAK VALID:
+1x
+nilai-total
+
+
+==================================================
+7. TIPE DATA DASAR
+==================================================
+
+PSS memiliki tipe data berikut:
+
+number   -> bilangan bulat (int)
+decimal  -> bilangan pecahan (double)
+string   -> teks
+bool     -> true / false
+byte     -> bilangan kecil (0-255)
+
+Contoh:
+number a = 10
+decimal pi = 3.14
+string msg = "halo"
+bool ok = true
+byte b = 255
+
+
+==================================================
+8. DEKLARASI VARIABEL
+==================================================
+
+Bentuk:
+<type> <nama> = <expression>
+
+Contoh:
+number x = 5
+decimal luas = 3.14 * 10 * 10
+
+Aturan:
+- Variabel HARUS dideklarasikan sebelum dipakai
+- Tidak boleh redeclare dalam scope yang sama
+
+
+==================================================
+9. ASSIGNMENT
+==================================================
+
+Bentuk:
+<nama> = <expression>
+
+Contoh:
+x = x + 1
+
+Type mismatch akan menghasilkan error.
+
+
+==================================================
+10. OPERATOR
+==================================================
+
+Aritmatika:
++  -  *  /  %
+
+Perbandingan:
+==  !=  <  >  <=  >=
+
+Logika:
+and  or  not
+
+
+==================================================
+11. EXPRESSION
+==================================================
+
+Expression adalah kombinasi:
+- literal
+- variabel
+- operator
+
+Contoh:
+a + b * 2
+x % 2 == 0
+
+Precedence (tinggi ke rendah):
+1. ()
+2. * / %
+3. + -
+4. perbandingan
+5. logika
+
+
+==================================================
+12. PRINT / OUTPUT
+==================================================
+
+Sintaks:
+print <arg1>, <arg2>, ...
+
+Contoh:
+print "nilai =", x
+print "luas =", luas
+
+Print otomatis:
+- number  -> %d
+- decimal -> %f
+- string  -> %s
+- bool    -> true/false
+
+
+==================================================
+13. IF STATEMENT
+==================================================
+
+Sintaks:
+if <kondisi>:
+    <block>
+else:
+    <block>
+
+Contoh:
+if x > 10:
+    print "besar"
+else:
+    print "kecil"
+
+Else bersifat opsional.
+
+
+==================================================
+14. KONDISI
+==================================================
+
+Kondisi HARUS menghasilkan bool.
+
+Contoh VALID:
+if x == 10:
+if x % 2 == 0:
+
+Contoh TIDAK VALID:
+if x + 1:
+
+
+==================================================
+15. LOOP DASAR
+==================================================
+
+Repeat loop:
+
+repeat <number> times:
+    <block>
+
+Contoh:
+number i = 0
+repeat 5 times:
+    print i
+    i = i + 1
+
+Nilai repeat HARUS number.
+
+
+==================================================
+16. SCOPE DASAR
+==================================================
+
+- Semua variabel di PART 1 bersifat GLOBAL
+- Block if/loop tidak membuat scope baru
+- Shadowing belum diperbolehkan
+
+
+==================================================
+17. ERROR MODEL DASAR
+==================================================
+
+Jenis error:
+
+1. Syntax Error
+   - indent salah
+   - keyword salah
+   - ':' hilang
+
+2. Type Error
+   - number + string
+   - assign tipe berbeda
+
+3. Runtime Error
+   - pembagian dengan 0
+
+
+==================================================
+18. CONTOH PROGRAM VALID
+==================================================
+
+program demo
+
+decimal pi = 3.14
+number r = 5
+decimal luas = pi * r * r
+
+number i = 0
+repeat 5 times:
+    if i % 2 == 0:
+        print "i =", i
+    else:
+        print "ganjil"
+    i = i + 1
+
+print "luas =", luas
+
+end
+
+
+==================================================
+19. CONTOH PROGRAM TIDAK VALID
+==================================================
+
+program demo
+number x = "halo"
+end
+
+Error:
+Type mismatch (number != string)
+
+
+==================================================
+END OF PART 1
+==================================================
+
+==================================================
+PSS LANGUAGE SPECIFICATION
+PART 2 – ADVANCED FEATURES & OOP
+(Simple Programming Script)
+==================================================
+
+Dokumen ini melanjutkan PART 1.
+Diasumsikan pembaca SUDAH memahami:
+- struktur program
+- tipe data dasar
+- if / repeat
+- expression & operator
+
+PART 2 menambahkan:
+- function
+- scope lokal
+- array
+- OOP
+- aturan compiler
+- aturan integrasi AI
+
+
+==================================================
+20. FUNCTION (PROSEDURAL)
+==================================================
+
+Function adalah blok kode yang dapat dipanggil ulang.
+
+Sintaks umum:
+
+function <nama>(<param1>, <param2>, ...) -> <return_type>:
+    <block>
+
+Contoh:
+function tambah(a, b) -> number:
+    return a + b
+
+Aturan:
+- Nama function mengikuti aturan identifier
+- Parameter bersifat lokal
+- Function boleh mengembalikan nilai
+
+
+==================================================
+21. RETURN STATEMENT
+==================================================
+
+Sintaks:
+return <expression>
+
+Contoh:
+return x * 2
+
+Aturan:
+- Tipe return HARUS sesuai deklarasi
+- Function tanpa return dianggap error
+  kecuali return_type = void
+
+
+==================================================
+22. FUNCTION VOID
+==================================================
+
+Function tanpa nilai balik menggunakan tipe `void`.
+
+Contoh:
+function tampil(msg) -> void:
+    print msg
+
+Pemanggilan:
+tampil("halo")
+
+
+==================================================
+23. PEMANGGILAN FUNCTION
+==================================================
+
+Bentuk:
+<nama_function>(<arg1>, <arg2>, ...)
+
+Contoh:
+number hasil = tambah(2, 3)
+
+Aturan:
+- Jumlah argumen HARUS sama
+- Tipe argumen HARUS cocok
+
+
+==================================================
+24. RECURSIVE FUNCTION
+==================================================
+
+Function boleh memanggil dirinya sendiri.
+
+Contoh:
+function faktorial(n) -> number:
+    if n <= 1:
+        return 1
+    else:
+        return n * faktorial(n - 1)
+
+
+==================================================
+25. SCOPE LOKAL
+==================================================
+
+Scope baru dibuat oleh:
+- function
+- class method
+
+Aturan:
+- Variabel di dalam function bersifat lokal
+- Variabel global bisa dibaca, tapi tidak ditimpa
+  tanpa deklarasi ulang
+
+
+==================================================
+26. SHADOWING
+==================================================
+
+Variabel lokal boleh menimpa nama global.
+
+Contoh:
+number x = 10
+
+function test() -> void:
+    number x = 5
+    print x   # 5
+
+print x       # 10
+
+
+==================================================
+27. MEMORY MODEL (KONSEPTUAL)
+==================================================
+
+Model memori PSS:
+
+- Global variable  -> static memory
+- Function local   -> stack
+- Object / array   -> heap
+
+Mapping ke C:
+- number  -> int
+- decimal -> double
+- string  -> char*
+- object  -> struct pointer
+
+
+==================================================
+28. ARRAY
+==================================================
+
+Deklarasi array:
+
+number[] data = [1, 2, 3, 4]
+
+Akses:
+print data[0]
+
+Assignment:
+data[1] = 10
+
+Aturan:
+- Index dimulai dari 0
+- Out-of-bounds = runtime error
+
+
+==================================================
+29. ARRAY LOOP
+==================================================
+
+Array bisa dipakai di loop.
+
+Contoh:
+repeat 4 times:
+    print data[i]
+
+
+==================================================
+30. CLASS (OOP DASAR)
+==================================================
+
+Class adalah blueprint object.
+
+Sintaks:
+class <NamaClass>:
+    <block>
+
+Contoh:
+class Player:
+    number hp = 100
+
+
+==================================================
+31. OBJECT
+==================================================
+
+Membuat object:
+
+Player p
+p = new Player()
+
+Akses properti:
+print p.hp
+
+
+==================================================
+32. METHOD
+==================================================
+
+Method adalah function di dalam class.
+
+Contoh:
+class Player:
+    number hp = 100
+
+    function damage(x) -> void:
+        hp = hp - x
+
+Pemanggilan:
+p.damage(10)
+
+
+==================================================
+33. CONSTRUCTOR
+==================================================
+
+Constructor bernama `init`.
+
+Contoh:
+class Player:
+    number hp
+
+    function init(start_hp) -> void:
+        hp = start_hp
+
+Pemanggilan:
+Player p = new Player(100)
+
+
+==================================================
+34. ENCAPSULATION
+==================================================
+
+Modifier akses:
+
+public   -> default
+private  -> hanya di dalam class
+
+Contoh:
+class Bank:
+    private number saldo
+
+    function setor(x) -> void:
+        saldo = saldo + x
+
+
+==================================================
+35. INHERITANCE
+==================================================
+
+Class dapat mewarisi class lain.
+
+Sintaks:
+class Child extends Parent:
+    <block>
+
+Contoh:
+class Enemy extends Player:
+    number damage = 10
+
+
+==================================================
+36. METHOD OVERRIDE
+==================================================
+
+Method child boleh menimpa method parent.
+
+Contoh:
+class Enemy extends Player:
+    function damage(x) -> void:
+        hp = hp - (x * 2)
+
+
+==================================================
+37. POLYMORPHISM (KONSEP)
+==================================================
+
+Object child dapat diperlakukan sebagai parent.
+
+Contoh:
+Player p
+p = new Enemy()
+p.damage(5)
+
+
+==================================================
+38. MODULE / IMPORT
+==================================================
+
+Import file PSS lain.
+
+Sintaks:
+import "math.pss"
+
+Aturan:
+- File di-parse satu kali
+- Namespace mengikuti nama file
+
+
+==================================================
+39. ERROR HANDLING (LANJUT)
+==================================================
+
+Error wajib memiliki:
+- jenis
+- baris
+- pesan singkat
+
+Format standar:
+[ERROR] TypeError at line 12: number != string
+
+
+==================================================
+40. COMPILER RULES
+==================================================
+
+Tahapan compiler:
+
+1. Lexer
+2. Parser
+3. AST builder
+4. Type checker
+5. Transpiler (PSS -> C)
+6. Compile C
+7. Run
+
+
+==================================================
+41. PSS -> C MAPPING
+==================================================
+
+Mapping utama:
+
+number    -> int
+decimal   -> double
+string    -> char*
+bool      -> int
+class     -> struct
+method    -> function with struct pointer
+
+
+==================================================
+42. AI INTEGRATION PROTOCOL
+==================================================
+
+AI menerima:
+- source PSS
+- error output
+- AST (opsional)
+
+AI mengembalikan:
+- diagnosis
+- patch code
+- explanation
+
+
+==================================================
+43. FORMAT ERROR UNTUK AI
+==================================================
+
+Contoh:
+[PSS ERROR]
+TypeError
+Line: 14
+Message: cannot add number and string
+
+
+==================================================
+44. TEST CASE MODEL
+==================================================
+
+Setiap fitur HARUS punya:
+- kode input
+- output expected
+- error expected
+
+
+==================================================
+45. CONTOH PROGRAM OOP LENGKAP
+==================================================
+
+program game
+
+class Player:
+    number hp
+
+    function init(h) -> void:
+        hp = h
+
+    function hit(x) -> void:
+        hp = hp - x
+
+Player p = new Player(100)
+p.hit(25)
+print p.hp
+
+end
+
+
+==================================================
+END OF PART 2
+==================================================
+
+==================================================
+PSS LANGUAGE SPECIFICATION
+PART 3 – REFINEMENT, UPDATE, & AI READY
+(Simple Programming Script)
+==================================================
+
+PART 3 bertujuan menyempurnakan bahasa PSS
+agar:
+- tidak ambigu
+- konsisten
+- mudah dianalisis AI
+- siap dikembangkan jangka panjang
+
+Dokumen ini TIDAK mengulang PART 1 & PART 2.
+
+
+==================================================
+46. TYPE CASTING RULES
+==================================================
+
+Aturan konversi tipe (casting):
+
+IMPLICIT CAST (boleh):
+- number  -> decimal
+- byte    -> number
+- byte    -> decimal
+
+Contoh:
+decimal x = 5        # OK
+
+EXPLICIT CAST (wajib):
+- decimal -> number
+- string  -> number
+- number  -> string
+
+Sintaks cast:
+<number>(expr)
+<decimal>(expr)
+<string>(expr)
+
+Contoh:
+number x = number(3.14)
+string s = string(10)
+
+
+==================================================
+47. TYPE ERROR PRIORITY
+==================================================
+
+Urutan prioritas error:
+1. Syntax Error
+2. Indent Error
+3. Type Error
+4. Runtime Error
+
+Jika ada Syntax Error,
+Type Checking TIDAK dijalankan.
+
+
+==================================================
+48. BOOL EXPRESSION RULES
+==================================================
+
+Bool hanya bernilai:
+- true
+- false
+
+Bool TIDAK boleh:
+- dijumlahkan
+- dikurangkan
+- dikali
+
+Contoh INVALID:
+true + false   # error
+
+
+==================================================
+49. CONTROL FLOW LANJUTAN
+==================================================
+
+Keyword tambahan:
+- break
+- continue
+
+break:
+- menghentikan loop terdekat
+
+continue:
+- lanjut ke iterasi berikutnya
+
+Contoh:
+repeat 10 times:
+    if i == 5:
+        break
+
+
+==================================================
+50. STRING SYSTEM (DETAIL)
+==================================================
+
+Escape character:
+- \n  newline
+- \t  tab
+- \"  quote
+
+String concatenation:
+string a = "halo "
+string b = "dunia"
+string c = a + b
+
+String + number:
+print "nilai = " + string(x)
+
+
+==================================================
+51. STANDARD LIBRARY (MINIMAL)
+==================================================
+
+Fungsi bawaan:
+
+len(x)
+- string -> panjang
+- array  -> jumlah elemen
+
+input()
+- membaca string dari stdin
+
+to_number(string)
+to_decimal(string)
+to_string(any)
+
+Contoh:
+number x = to_number(input())
+
+
+==================================================
+52. RUNTIME LIMIT & SAFETY
+==================================================
+
+Batas default:
+- loop maksimal 1.000.000 iterasi
+- recursion depth maksimal 256
+- memory object dibatasi
+
+Jika terlampaui:
+RuntimeError: execution limit exceeded
+
+
+==================================================
+53. ERROR CODE SYSTEM
+==================================================
+
+Setiap error memiliki kode unik.
+
+Format:
+[EXXX] [Type] [Line] Message
+
+Contoh:
+[E102][TypeError][Line 14]
+cannot add number and string
+
+
+==================================================
+54. ERROR SUGGESTION (AI FRIENDLY)
+==================================================
+
+Error boleh memiliki saran.
+
+Contoh:
+Suggestion:
+convert string to number using to_number()
+
+
+==================================================
+55. ABSTRACT SYNTAX TREE (AST)
+==================================================
+
+Setiap program diubah ke AST.
+
+Contoh AST (text):
+
+Program
+ ├─ VarDecl(number, x, 10)
+ ├─ If
+ │   ├─ Condition (x > 5)
+ │   └─ Print("besar")
+
+
+==================================================
+56. INTERMEDIATE REPRESENTATION (IR)
+==================================================
+
+IR adalah bentuk linear AST.
+
+Contoh:
+LOAD x
+PUSH 10
+CMP >
+JUMP_IF_FALSE L1
+CALL print
+
+
+==================================================
+57. OPTIMIZATION RULES
+==================================================
+
+Optimasi dasar:
+- Constant folding
+- Dead code removal
+- Inline simple function
+
+
+==================================================
+58. VERSIONING
+==================================================
+
+Versi bahasa:
+- PSS 1.0  (PART 1 + PART 2)
+- PSS 1.1  (+ PART 3)
+
+Backward compatibility:
+- syntax lama tetap valid
+
+
+==================================================
+59. AI AUTO-FIX PROTOCOL
+==================================================
+
+AI menerima:
+- source PSS
+- error list
+- AST (opsional)
+
+AI mengembalikan:
+- patch (diff)
+- fixed code
+- alasan perbaikan
+
+
+==================================================
+60. CONTOH ERROR + AUTO FIX
+==================================================
+
+Input:
+number x = "10"
+
+Error:
+[E102][TypeError][Line 1]
+
+AI Fix:
+number x = to_number("10")
+
+
+==================================================
+END OF PART 3
+==================================================
+
+==================================================
+PSS LANGUAGE SPECIFICATION
+PART 4 – STANDARD LIBRARY, RUNTIME, & TOOLING
+(Simple Programming Script)
+==================================================
+
+PART 4 melengkapi PSS dengan:
+- Standard Library resmi
+- Runtime behavior detail
+- Tooling (CLI, formatter, linter)
+- Debug & testing support
+
+PART 4 TIDAK mengulang PART 1, 2, atau 3.
+
+
+==================================================
+61. STANDARD LIBRARY OVERVIEW
+==================================================
+
+Standard Library PSS bertujuan:
+- menyediakan fungsi umum
+- menghindari penulisan kode berulang
+- mempermudah AI dalam auto-fix
+
+Library default otomatis tersedia
+tanpa import.
+
+
+==================================================
+62. MATH LIBRARY
+==================================================
+
+Fungsi matematika:
+
+abs(x)           -> number / decimal
+min(a, b)
+max(a, b)
+pow(a, b)
+sqrt(x)
+round(x)
+floor(x)
+ceil(x)
+
+Contoh:
+decimal r = sqrt(25)
+number p = pow(2, 3)
+
+
+==================================================
+63. STRING LIBRARY
+==================================================
+
+Fungsi string:
+
+len(string)
+upper(string)
+lower(string)
+trim(string)
+split(string, delimiter)
+replace(string, a, b)
+contains(string, sub)
+
+Contoh:
+string s = upper("halo")
+bool ok = contains("halo", "ha")
+
+
+==================================================
+64. ARRAY LIBRARY
+==================================================
+
+Fungsi array:
+
+len(array)
+push(array, value)
+pop(array)
+insert(array, index, value)
+remove(array, index)
+
+Contoh:
+push(data, 10)
+number x = pop(data)
+
+
+==================================================
+65. IO LIBRARY
+==================================================
+
+Input & Output:
+
+input()                -> string
+input_number()         -> number
+input_decimal()        -> decimal
+
+print()                -> stdout
+println()              -> stdout + newline
+
+Contoh:
+number x = input_number()
+println("nilai =", x)
+
+
+==================================================
+66. TIME LIBRARY
+==================================================
+
+Fungsi waktu:
+
+sleep(ms)
+time_now()             -> number (epoch)
+
+Contoh:
+sleep(1000)
+
+
+==================================================
+67. FILE SYSTEM (DASAR)
+==================================================
+
+Fungsi file:
+
+file_read(path)        -> string
+file_write(path, data)
+file_exists(path)      -> bool
+
+Contoh:
+string txt = file_read("data.txt")
+
+
+==================================================
+68. RUNTIME EXECUTION MODEL
+==================================================
+
+Tahapan runtime:
+
+1. Load program
+2. Init global variable
+3. Execute statements
+4. Cleanup memory
+5. Exit code
+
+Default exit code = 0
+
+
+==================================================
+69. MEMORY MANAGEMENT
+==================================================
+
+- Memory dialokasikan otomatis
+- Tidak ada manual free
+- Garbage Collection sederhana
+- Object tidak dipakai akan dibersihkan
+
+
+==================================================
+70. DEBUG MODE
+==================================================
+
+Mode debug diaktifkan dengan flag:
+
+pss run file.pss --debug
+
+Debug menampilkan:
+- line execution
+- variable value
+- call stack
+
+
+==================================================
+71. STACK TRACE
+==================================================
+
+Jika runtime error:
+
+Stack trace ditampilkan:
+- nama function
+- line number
+- call order
+
+
+==================================================
+72. TESTING FRAMEWORK
+==================================================
+
+Sintaks test:
+
+test "nama test":
+    assert x == 10
+
+Contoh:
+test "penjumlahan":
+    number x = 2 + 3
+    assert x == 5
+
+
+==================================================
+73. ASSERT
+==================================================
+
+Assert digunakan untuk validasi.
+
+Sintaks:
+assert <condition>
+
+Jika false:
+AssertionError
+
+
+==================================================
+74. COMMAND LINE INTERFACE (CLI)
+==================================================
+
+Perintah CLI:
+
+pss run file.pss
+pss build file.pss
+pss check file.pss
+pss fmt file.pss
+pss test file.pss
+
+
+==================================================
+75. FORMATTER (AUTO FORMAT)
+==================================================
+
+Formatter:
+- memperbaiki indent
+- menyamakan spasi
+- membersihkan baris kosong
+
+Tujuan:
+- kode konsisten
+- AI mudah membaca
+
+
+==================================================
+76. LINTER
+==================================================
+
+Linter mendeteksi:
+- unused variable
+- unreachable code
+- bad naming
+
+Output:
+[LINT][Line 12] unused variable x
+
+
+==================================================
+77. CONFIG FILE
+==================================================
+
+File konfigurasi:
+pss.config
+
+Isi contoh:
+max_loop = 100000
+debug = false
+
+
+==================================================
+78. PACKAGE SYSTEM (OPSIONAL)
+==================================================
+
+Struktur paket:
+
+/lib
+  math.pss
+  io.pss
+
+Import:
+import "lib/math.pss"
+
+
+==================================================
+79. VERSION DIRECTIVE
+==================================================
+
+Menentukan versi bahasa:
+
+version 1.1
+
+Compiler error jika versi tidak cocok.
+
+
+==================================================
+80. SECURITY MODEL
+==================================================
+
+Keamanan default:
+- file access dibatasi
+- network disabled
+- sandbox execution
+
+
+==================================================
+81. AI TOOLING SUPPORT
+==================================================
+
+Tool AI dapat:
+- membaca AST
+- membaca error code
+- menjalankan formatter
+- mengusulkan patch
+
+
+==================================================
+82. AI AUTO PATCH FORMAT
+==================================================
+
+Format patch:
+
+--- before
++++ after
+@@ line 12
+- number x = "10"
++ number x = to_number("10")
+
+
+==================================================
+83. LOGGING SYSTEM
+==================================================
+
+Level log:
+- info
+- warning
+- error
+- debug
+
+Contoh:
+log_info("start program")
+
+
+==================================================
+84. PERFORMANCE NOTES
+==================================================
+
+- Loop berat disarankan pakai number
+- Decimal lebih mahal
+- String immutable
+
+
+==================================================
+85. FINAL NOTE
+==================================================
+
+Setelah PART 4:
+- PSS adalah bahasa lengkap
+- Siap compiler production
+- Siap AI auto-fix
+- Siap dikembangkan versi 2.0
+
+
+==================================================
+END OF PART 4
+==================================================
+
+========================================================
+PSS LANGUAGE SPECIFICATION
+PART 5 : STANDARD LIBRARY & SIZE POLICY (FINAL)
+========================================================
+
+5.0 TUJUAN DESAIN LIBRARY PSS
+--------------------------------------------------------
+PSS (Programming Simple Script) dirancang sebagai bahasa
+pemrograman yang ringan, mudah dipelajari, dan dapat
+berjalan di perangkat dengan spesifikasi rendah seperti
+HP dan laptop lama.
+
+Fokus utama desain:
+- Core kecil
+- Library modular
+- Tidak memaksa fitur berat
+- Mudah dipahami oleh pemula
+
+Prinsip utama:
+"CORE KECIL, FITUR BESAR LEWAT EKSTENSI"
+
+
+5.1 KEBIJAKAN UKURAN (SIZE POLICY)
+--------------------------------------------------------
+
+5.1.1 Target Ukuran
+- Compiler + runtime inti PSS:
+  < 5 MB (target desain)
+- Tanpa model AI bawaan
+- Tanpa engine besar
+- Tanpa dependency berat
+
+5.1.2 Yang TIDAK Termasuk Core
+Fitur berikut TIDAK BOLEH berada di core:
+
+- Model AI / Machine Learning
+- Large Language Model (LLM)
+- Game engine besar
+- Web framework kompleks
+- Library scientific berat
+
+Fitur di atas hanya boleh hadir sebagai:
+- Plugin
+- Library eksternal
+- Download opsional
+
+
+5.2 KONSEP LIBRARY DI PSS
+--------------------------------------------------------
+Library adalah kumpulan fungsi siap pakai agar programmer
+tidak perlu menulis semuanya dari nol.
+
+Library di PSS harus:
+- Mudah dimengerti
+- Nama jelas
+- Minim simbol rumit
+- Aman untuk pemula
+
+Contoh penggunaan:
+use math
+use io
+
+
+5.3 SINTAKS PENGGUNAAN LIBRARY
+--------------------------------------------------------
+
+5.3.1 Import Library
+use nama_library
+
+Contoh:
+use math
+
+5.3.2 Import Dengan Alias
+use nama_library as alias
+
+Contoh:
+use math as m
+
+Pemanggilan:
+m.sqrt(25)
+
+
+5.4 CORE LIBRARY (WAJIB & RINGAN)
+--------------------------------------------------------
+
+Library: core
+
+Isi fungsi dasar:
+- print
+- input
+- typeof
+- to_number
+- to_string
+
+Contoh:
+name = input("nama: ")
+print name
+
+Core library harus selalu tersedia dan sangat kecil.
+
+
+5.5 SYSTEM LIBRARY
+--------------------------------------------------------
+
+Library: system
+
+Fungsi dasar sistem:
+- exit
+- sleep
+- time
+- args
+
+Contoh:
+system.sleep(1)
+
+
+5.6 MATH LIBRARY (VERSI DASAR)
+--------------------------------------------------------
+
+Library: math
+
+Isi:
+- PI
+- sqrt
+- pow
+- abs
+- round
+
+Contoh:
+use math
+
+decimal r = 5
+decimal luas = math.PI * r * r
+
+
+5.7 MATH LANJUTAN (OPSIONAL)
+--------------------------------------------------------
+
+Library: math.advanced
+
+Isi (opsional):
+- matrix
+- vector
+- statistik dasar
+
+Library ini:
+- Tidak otomatis ter-download
+- Hanya digunakan jika diperlukan
+
+Contoh:
+use math.advanced
+
+
+5.8 INPUT OUTPUT (IO) LIBRARY
+--------------------------------------------------------
+
+Library: io
+
+Fungsi:
+- read_file
+- write_file
+- exists
+
+Contoh:
+text = io.read_file("data.txt")
+print text
+
+
+5.9 WEB LIBRARY (MINIMAL)
+--------------------------------------------------------
+
+Library: web.http
+
+Tujuan:
+- HTTP request sederhana
+- Bukan web framework
+
+Fungsi:
+- get
+- post
+
+Contoh:
+use web.http
+
+data = http.get("https://example.com")
+print data
+
+
+5.10 GAME LIBRARY (RINGAN & EDUKATIF)
+--------------------------------------------------------
+
+Library: game.simple
+
+Tujuan:
+- Edukasi
+- Logika game dasar
+- Bukan engine berat
+
+Fitur:
+- window
+- draw
+- input
+
+
+5.11 AI LIBRARY (TIDAK WAJIB & RINGAN)
+--------------------------------------------------------
+
+Library: ai.helper
+
+Catatan penting:
+- BUKAN AI berat
+- TANPA model ML
+- TANPA neural network
+
+Isi:
+- rule-based helper
+- syntax checker sederhana
+- code formatter
+
+Contoh fungsi:
+ai.check_syntax(code)
+ai.format(code)
+
+Library ini bertujuan membantu pemula,
+bukan menggantikan programmer.
+
+
+5.12 PLUGIN SYSTEM
+--------------------------------------------------------
+
+Library besar harus berada di plugin:
+
+- AI LLM
+- Game engine besar
+- Web framework
+- Data science
+
+Struktur:
+plugins/
+  ai_llm/
+  game_engine/
+  web_framework/
+
+Plugin bersifat:
+- Opsional
+- Install manual
+- Tidak mempengaruhi ukuran core
+
+
+5.13 ATURAN PENAMAAN LIBRARY & API
+--------------------------------------------------------
+
+Aturan:
+- Nama fungsi jelas
+- Bahasa manusia
+- Minim singkatan
+- Mudah dibaca pemula
+
+Contoh buruk:
+cfg.init.sys()
+
+Contoh baik:
+system.start()
+
+
+5.14 RINGKASAN PART 5
+--------------------------------------------------------
+
+- PSS tetap ringan
+- Cocok untuk HP & laptop low-end
+- Library modular & opsional
+- AI tidak membebani core
+- Mudah dipahami orang awam
+
+========================================================
+END OF PART 5
+========================================================
+
+==============================
+PSS LANGUAGE SPECIFICATION
+PART 6 — TOOLING, DEBUGGING, & FUTURE EXTENSION
+==============================
+
+Baris: lanjutan (Part 6)
+Status: Final Draft
+Target: Compiler / Transpiler / AI Helper (Ringan)
+
+--------------------------------
+6. TUJUAN PART 6
+--------------------------------
+Part 6 menjelaskan:
+- Cara debugging PSS
+- Sistem error & warning
+- Tool bawaan PSS (ringan)
+- Format pesan error (untuk AI / manusia)
+- Rencana ekstensi masa depan (tanpa AI berat)
+
+Part ini TIDAK:
+- Menambahkan AI besar
+- Menambah dependensi berat
+- Mengunci PSS ke satu platform
+
+--------------------------------
+7. SISTEM ERROR & WARNING
+--------------------------------
+
+7.1 Jenis Pesan
+---------------
+PSS hanya mengenal 3 jenis pesan:
+
+1. ERROR   → program berhenti
+2. WARNING → program jalan, tapi ada resiko
+3. INFO    → informasi saja
+
+Format umum:
+[TYPE][FILE:LINE] MESSAGE
+
+Contoh:
+[ERROR][main.pss:12] variable 'x' not defined
+[WARNING][loop.pss:8] implicit type conversion
+[INFO][sys] transpiling started
+
+--------------------------------
+7.2 ERROR WAJIB (FATAL ERROR)
+--------------------------------
+
+Error yang WAJIB menghentikan proses:
+
+- Indent salah
+- Tipe data tidak cocok
+- Variabel belum dideklarasikan
+- Operator tidak valid
+- Kurung tidak seimbang
+- Keyword salah tulis
+
+Contoh:
+decimal x = "halo"
+→ ERROR: type mismatch
+
+--------------------------------
+7.3 WARNING (NON-FATAL)
+--------------------------------
+
+Warning tidak menghentikan eksekusi:
+
+- Konversi number → decimal
+- Variabel tidak dipakai
+- Loop tidak digunakan
+
+Tujuan warning:
+- Edukasi
+- Bukan menghakimi user
+
+--------------------------------
+8. DEBUGGING MODE
+--------------------------------
+
+PSS menyediakan mode debug ringan:
+
+pss run file.pss --debug
+
+Output debug:
+- Baris yang dieksekusi
+- Nilai variabel penting
+- Hasil evaluasi kondisi
+
+Contoh output:
+[DEBUG] i = 3
+[DEBUG] condition (i % 2 == 0) → false
+
+--------------------------------
+9. TOOL BAWAAN PSS (RINGAN)
+--------------------------------
+
+Semua tool bersifat OPSIONAL dan kecil ukurannya.
+
+9.1 pss check
+-------------
+Memeriksa syntax tanpa menjalankan program
+
+pss check main.pss
+
+9.2 pss format
+--------------
+Meratakan indent otomatis
+
+pss format main.pss
+
+9.3 pss transpile
+-----------------
+Mengubah PSS ke target bahasa (C / Python)
+
+pss transpile main.pss --target=c
+
+--------------------------------
+10. FORMAT OUTPUT UNTUK AI HELPER
+--------------------------------
+
+PSS mendukung output yang RAMAH AI,
+tanpa perlu AI berat di dalam bahasa.
+
+Format standar error untuk AI:
+
+{
+  "type": "error",
+  "line": 12,
+  "code": "E_TYPE_MISMATCH",
+  "message": "decimal cannot receive string"
+}
+
+AI eksternal cukup membaca JSON ini.
+
+--------------------------------
+11. FILOSOFI TANPA AI BERAT
+--------------------------------
+
+PSS TIDAK:
+- Menanam LLM di compiler
+- Mengunduh model besar
+- Memaksa koneksi internet
+
+PSS MENGIZINKAN:
+- AI eksternal membaca log
+- AI memperbaiki kode dari luar
+- AI berjalan offline (Ollama, dll)
+
+--------------------------------
+12. EXTENSION SYSTEM (MASA DEPAN)
+--------------------------------
+
+PSS mendukung ekstensi melalui folder:
+
+/pss_extensions/
+
+Contoh:
+- web.pss
+- math.pss
+- game.pss
+
+Ekstensi hanyalah:
+- file PSS
+- atau file config
+BUKAN binary berat
+
+--------------------------------
+13. KOMPATIBILITAS PLATFORM
+--------------------------------
+
+Target minimal:
+- Windows
+- Linux
+- WSL
+- Low-end laptop
+
+Spesifikasi minimum:
+- RAM 4 GB
+- CPU 2 core
+- TANPA GPU
+
+--------------------------------
+14. PENUTUP PART 6
+--------------------------------
+
+Part 6 memastikan:
+- PSS mudah di-debug
+- Error mudah dipahami manusia & AI
+- Bahasa tetap ringan
+- Siap dikembangkan jangka panjang
+
+Part ini MELENGKAPI:
+- Syntax (Part 1–4)
+- Library (Part 5)
+- Tooling & ekosistem (Part 6)
+
+==============================
+END OF PART 6
+==============================
+
+==============================
+PSS LANGUAGE SPECIFICATION
+PART 7 — COMPILER, RUNTIME, & DIRECT EXECUTION
+==============================
+
+Status: Final Draft
+Target: Pemula sampai Advanced
+Fokus: Langsung jalan (Run), tanpa ribet
+
+--------------------------------
+15. TUJUAN PART 7
+--------------------------------
+Part 7 mendefinisikan:
+- Compiler PSS resmi
+- Cara PSS langsung dijalankan
+- Sistem runtime
+- Cara library game / web / app tampil langsung
+
+Prinsip utama:
+"Satu perintah → langsung jalan"
+
+--------------------------------
+16. KONSEP COMPILER PSS
+--------------------------------
+
+Compiler PSS bernama:
+
+pss
+
+Fungsi utama:
+- Parsing syntax PSS
+- Validasi indent
+- Cek tipe data
+- Transpile
+- Compile (jika perlu)
+- Run
+
+--------------------------------
+17. MODE JALAN (RUN MODE)
+--------------------------------
+
+17.1 Mode Default
+-----------------
+pss run main.pss
+
+Yang terjadi:
+1. Cek syntax
+2. Transpile
+3. Compile (jika target native)
+4. Jalankan hasilnya
+
+User TIDAK perlu:
+- gcc manual
+- python manual
+- setup ribet
+
+--------------------------------
+17.2 Mode Cepat (Fast Run)
+--------------------------------
+
+pss run main.pss --fast
+
+Fast run:
+- Tanpa optimasi
+- Untuk testing cepat
+- Cocok laptop kentang
+
+--------------------------------
+18. TARGET RUNTIME
+--------------------------------
+
+PSS mendukung beberapa runtime:
+
+- native (C)
+- python
+- wasm (future)
+
+Default:
+native
+
+--------------------------------
+19. LIBRARY GAME (LANGSUNG TAMPIL)
+--------------------------------
+
+Library game bernama:
+
+game
+
+Import:
+use game
+
+Contoh PSS:
+----------------
+use game
+
+game window 800 600 "Demo Game"
+
+game loop :
+    game clear
+    game draw_rect 100 100 50 50
+    game display
+----------------
+
+Saat dijalankan:
+- Window langsung muncul
+- Tidak perlu setup manual
+- Backend: SDL / raylib (dibungkus)
+
+--------------------------------
+20. LIBRARY WEB (LANGSUNG KE BROWSER)
+--------------------------------
+
+Library web bernama:
+
+web
+
+Import:
+use web
+
+Contoh:
+----------------
+use web
+
+web route "/" :
+    web text "Hello PSS"
+
+web start 8080
+----------------
+
+Saat run:
+- Server otomatis jalan
+- Browser otomatis terbuka
+- User lihat hasil langsung
+
+--------------------------------
+21. LIBRARY APLIKASI (DESKTOP APP)
+--------------------------------
+
+Library app bernama:
+
+app
+
+Import:
+use app
+
+Contoh:
+----------------
+use app
+
+app window "My App" 400 300
+
+app button "Klik Saya" :
+    print "Button diklik"
+
+app run
+----------------
+
+Hasil:
+- Window desktop muncul
+- Tanpa framework berat
+- Cocok aplikasi sederhana
+
+--------------------------------
+22. FILOSOFI LIBRARY PSS
+--------------------------------
+
+Library PSS harus:
+- Mudah dibaca
+- Mudah dipelajari
+- Tidak verbose
+- Tidak banyak konfigurasi
+
+Target user:
+- Pelajar
+- Pemula
+- Indie dev
+- Edukasi
+
+--------------------------------
+23. STRUKTUR INTERNAL COMPILER
+--------------------------------
+
+Struktur dasar:
+
+pss/
+ ├─ parser.py
+ ├─ typer.py
+ ├─ transpiler/
+ │   ├─ c.py
+ │   ├─ python.py
+ ├─ runtime/
+ ├─ libs/
+ └─ pss.py
+
+--------------------------------
+24. ERROR SAAT RUN
+--------------------------------
+
+Jika error runtime:
+- Compiler tetap kirim error jelas
+- Sertakan baris PSS
+- Sertakan output terminal
+
+Format:
+[RUNTIME ERROR][line] message
+
+--------------------------------
+25. PENUTUP PART 7
+--------------------------------
+
+Part 7 memastikan:
+- PSS bisa langsung run
+- Game langsung tampil
+- Web langsung kebuka
+- App langsung muncul
+- Semua tetap ringan
+
+==============================
+END OF PART 7
+==============================
+
+
+==============================
+PSS LANGUAGE SPECIFICATION
+PART 8 — STANDARD PROJECT & ROADMAP
+==============================
+
+--------------------------------
+26. STRUKTUR PROJECT PSS
+--------------------------------
+
+Contoh project:
+
+my_project/
+ ├─ main.pss
+ ├─ libs/
+ ├─ assets/
+ └─ build/
+
+--------------------------------
+27. STANDAR PROJECT PEMULA
+--------------------------------
+
+- Satu file utama
+- Library secukupnya
+- Tanpa config ribet
+
+--------------------------------
+28. ROADMAP PSS
+--------------------------------
+
+v0.1
+- Core syntax
+- number / decimal
+- loop / if
+
+v0.2
+- Compiler stabil
+- game / web / app
+
+v1.0
+- Dokumentasi lengkap
+- Tooling matang
+- Siap dipakai umum
+
+--------------------------------
+29. PRINSIP MASA DEPAN
+--------------------------------
+
+- Tetap ringan
+- Tidak tergantung AI berat
+- Bisa dikembangkan komunitas
+- Mudah dipahami manusia
+
+--------------------------------
+30. PENUTUP PART 8
+--------------------------------
+
+PSS dibuat untuk:
+- Belajar
+- Berkarya
+- Eksperimen
+- Tanpa ribet
+
+==============================
+END OF PART 8
+==============================
+
+==============================
+PSS LANGUAGE SPECIFICATION
+PART 9 — REFINEMENT, UPDATE, & FINAL IMPROVEMENT
+==============================
+
+Status: Final Improvement
+Peran: Penyempurnaan sebelum Part 10 (Penutup)
+
+--------------------------------
+31. TUJUAN PART 9
+--------------------------------
+Part 9 bertujuan untuk:
+- Merapikan fitur yang sudah ada
+- Menutup celah kekurangan desain
+- Menambahkan fitur kecil tapi penting
+- Menjaga PSS tetap ringan dan stabil
+
+Tidak menambah fitur berat baru.
+
+--------------------------------
+32. PENYEMPURNAAN TIPE DATA
+--------------------------------
+
+Tipe data final PSS:
+
+- number    → bilangan bulat
+- decimal   → bilangan pecahan
+- text      → string
+- bool      → true / false
+- list      → kumpulan data
+- object    → data terstruktur
+
+Contoh:
+----------------
+number a = 10
+decimal b = 3.14
+text c = "hello"
+bool d = true
+----------------
+
+--------------------------------
+33. CASTING & KONVERSI DATA
+--------------------------------
+
+PSS mendukung konversi sederhana:
+
+number x = to_number("123")
+decimal y = to_decimal("3.14")
+text z = to_text(100)
+
+Tujuan:
+- Mudah dipahami
+- Tidak ambigu
+- Aman untuk pemula
+
+--------------------------------
+34. UPDATE PRINT SYSTEM
+--------------------------------
+
+print mendukung multi argumen:
+
+print "nilai =", x
+print "luas =", luas
+
+Compiler otomatis:
+- Menentukan format
+- Menyesuaikan tipe data
+
+--------------------------------
+35. UPDATE CONTROL FLOW
+--------------------------------
+
+If / else dipastikan stabil:
+
+if kondisi :
+    ...
+else :
+    ...
+
+repeat mendukung:
+- angka langsung
+- variabel
+
+repeat i times :
+    ...
+
+--------------------------------
+36. UPDATE ERROR HANDLING
+--------------------------------
+
+Jenis error resmi:
+
+- Syntax Error
+- Indent Error
+- Type Error
+- Runtime Error
+
+Format error:
+[PSS ERROR][line X] message
+
+Contoh:
+[PSS ERROR][line 12] decimal tidak bisa ditambah text
+
+--------------------------------
+37. PENYEMPURNAAN INDENT SYSTEM
+--------------------------------
+
+Aturan final:
+- Indent berbasis spasi
+- 4 spasi = 1 blok
+- Tab tidak direkomendasikan
+
+Jika salah:
+Indent Error langsung muncul
+
+--------------------------------
+38. OPTIMASI COMPILER
+--------------------------------
+
+Compiler PSS:
+- Parsing satu kali
+- Validasi sebelum transpile
+- Transpile efisien
+- Build cache sederhana
+
+Tujuan:
+- Cepat
+- Hemat RAM
+- Cocok laptop 8–16 GB
+
+--------------------------------
+39. UPDATE LIBRARY SYSTEM
+--------------------------------
+
+Library bersifat:
+- Modular
+- Tidak auto-load
+- Dipanggil manual dengan `use`
+
+Contoh:
+use math
+use game
+
+Jika tidak dipakai → tidak dimuat
+
+--------------------------------
+40. KEAMANAN & BATASAN
+--------------------------------
+
+PSS membatasi:
+- Akses sistem langsung
+- Command berbahaya
+- Operasi raw tanpa izin
+
+Fokus:
+Bahasa aman untuk belajar & eksperimen
+
+--------------------------------
+41. KOMPATIBILITAS PLATFORM
+--------------------------------
+
+Target utama:
+- Windows
+- Linux
+- WSL
+
+Future:
+- Android (experimental)
+- Web (wasm)
+
+--------------------------------
+42. FILOSOFI AKHIR PSS
+--------------------------------
+
+PSS bukan:
+- Pengganti semua bahasa
+- Bahasa super kompleks
+
+PSS adalah:
+- Bahasa belajar
+- Bahasa eksperimen
+- Bahasa ringan
+- Bahasa manusiawi
+
+--------------------------------
+43. TRANSISI KE PART 10
+--------------------------------
+
+Setelah Part 9:
+- Semua fitur utama selesai
+- Spesifikasi stabil
+- Siap ditutup secara resmi
+
+Part 10 akan berisi:
+- Ringkasan keseluruhan
+- Contoh final
+- Pernyataan versi 1.0
+
+==============================
+END OF PART 9
+==============================
+
+==============================
+PSS LANGUAGE SPECIFICATION
+PART 10 — FINAL COMPILER OPTIMIZATION & ANDROID SUPPORT
+==============================
+
+Status: FINAL PART
+Versi Target: PSS v1.0
+Fokus: Compiler ringan & Android RAM 2 GB
+
+--------------------------------
+44. TUJUAN PART 10
+--------------------------------
+Part 10 adalah penutup resmi spesifikasi PSS.
+
+Tujuan utama:
+- Menyempurnakan compiler
+- Menjamin PSS ringan
+- Memastikan PSS bisa berjalan di Android RAM 2 GB
+- Menetapkan PSS v1.0 sebagai versi stabil
+
+--------------------------------
+45. DESAIN COMPILER FINAL
+--------------------------------
+
+Compiler PSS dirancang dengan prinsip:
+- Single-pass parsing
+- Tidak menyimpan AST besar
+- Minim alokasi memori
+- Tidak ada dependency berat
+
+Tahapan compiler:
+1. Lexer ringan
+2. Parser berbasis indent
+3. Validasi dasar
+4. Transpile
+5. Run / Build
+
+--------------------------------
+46. MODE COMPILER
+--------------------------------
+
+PSS compiler memiliki 3 mode:
+
+1. dev
+   - error detail
+   - cocok untuk belajar
+
+2. run
+   - cepat
+   - langsung eksekusi
+
+3. build
+   - hasil binary / package
+   - ukuran kecil
+
+--------------------------------
+47. OPTIMASI MEMORI
+--------------------------------
+
+Target memori:
+- Idle compiler: < 50 MB
+- Compile file sedang: < 150 MB
+- Runtime PSS sederhana: < 100 MB
+
+Strategi:
+- Streaming parsing
+- Buang simbol setelah dipakai
+- Library lazy-load
+
+--------------------------------
+48. PSS DI ANDROID (RAM 2 GB)
+--------------------------------
+
+Target device:
+- Android RAM 2 GB
+- CPU ARM 64
+- Storage terbatas
+
+Pendekatan:
+- Tidak pakai JVM
+- Tidak pakai Python runtime besar
+- Compiler ditulis dalam C / Rust (future)
+
+--------------------------------
+49. CARA JALAN DI ANDROID
+--------------------------------
+
+Opsi resmi:
+
+1. Termux
+   - Install pss-compiler
+   - Run via CLI
+
+2. PSS Runtime Lite
+   - Binary kecil
+   - Fokus script & game ringan
+
+--------------------------------
+50. BATASAN ANDROID
+--------------------------------
+
+Di Android RAM 2 GB:
+- Tidak dianjurkan AI berat
+- Tidak dianjurkan library besar
+- Fokus:
+  - logika
+  - UI ringan
+  - game 2D sederhana
+  - web local
+
+--------------------------------
+51. GAME & WEB DI ANDROID
+--------------------------------
+
+Game:
+- Render sederhana
+- Frame limit otomatis
+- Asset kecil
+
+Web:
+- Local server ringan
+- Auto open browser
+- Tanpa framework besar
+
+--------------------------------
+52. STRATEGI UKURAN FILE
+--------------------------------
+
+Target ukuran:
+- Compiler < 20 MB
+- Runtime < 10 MB
+- Library modular < 5 MB per lib
+
+Jika lib tidak dipakai → tidak ikut terinstall
+
+--------------------------------
+53. UPDATE SISTEM LIBRARY
+--------------------------------
+
+Library resmi PSS:
+- pss-math-lite
+- pss-game-lite
+- pss-web-lite
+- pss-ui-lite
+
+Semua:
+- Dokumentasi sederhana
+- Contoh jelas
+- Ramah pemula
+
+--------------------------------
+54. KEAMANAN DI ANDROID
+--------------------------------
+
+Compiler membatasi:
+- Akses file sistem
+- Akses root
+- Command berbahaya
+
+PSS aman untuk:
+- Pelajar
+- Eksperimen
+- App sederhana
+
+--------------------------------
+55. STABILITAS & TESTING
+--------------------------------
+
+Sebelum rilis:
+- Test script kecil
+- Test loop panjang
+- Test memori rendah
+- Test crash recovery
+
+--------------------------------
+56. STATUS FINAL PSS
+--------------------------------
+
+Dengan Part 10:
+- Spesifikasi lengkap
+- Compiler jelas
+- Target device jelas
+- Filosofi konsisten
+
+--------------------------------
+57. PENUTUP RESMI
+--------------------------------
+
+PSS v1.0 adalah:
+- Bahasa ringan
+- Bahasa ramah manusia
+- Bahasa untuk belajar & eksperimen
+- Bahasa yang bisa jalan di device rendah
+
+PSS tidak berlomba jadi paling canggih,
+tapi fokus jadi paling masuk akal.
+
+==============================
+END OF PART 10
+END OF PSS LANGUAGE SPECIFICATION
+VERSION 1.0
+==============================
+
