@@ -1,0 +1,10 @@
+program v1
+    number a = 10
+    number b = 20
+    print "Sum of", a, "and", b, "is", a + b
+    
+    if a + b > 25:
+        print "Result is greater than 25"
+    else:
+        print "Result is small"
+end
