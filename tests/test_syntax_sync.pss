@@ -1,0 +1,27 @@
+# Tes Sinkronisasi Sintaks PSS v3.2
+a = 1
+b = 0
+
+print a and b  # 0
+print a or b   # 1
+print not a    # 0
+
+if a == 1;
+    print "Header with semicolon works"
+end
+
+func test_sync();
+    print "Func with semicolon works"
+end
+
+test_sync()
+
+c = 10
+c *= 2
+print c  # 20
+c /= 4
+print c  # 5
+c %= 3
+print c  # 2
+c **= 3
+print c  # 8

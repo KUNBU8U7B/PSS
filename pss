@@ -1,2 +1,106 @@
 #!/bin/bash
-python3 ./pss.py "$@"
+# PSS Universal CLI v1.6.4
+# Fixed: Dev priority and execution logic
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ARCH_M=$(uname -m)
+ARCH_FLAG=""
+[[ "$ARCH_M" == "aarch64" || "$ARCH_M" == "arm64" ]] && ARCH_FLAG="-arm"
+
+# Determine install location
+if [ -n "$TERMUX_VERSION" ]; then
+    INSTALL_DIR="$PREFIX/bin"
+elif [ -w "/usr/local/bin" 2>/dev/null ]; then
+    INSTALL_DIR="/usr/local/bin"
+else
+    INSTALL_DIR="$HOME/.local/bin"
+    mkdir -p "$INSTALL_DIR"
+    # Add to PATH if not already there
+    if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
+        export PATH="$HOME/.local/bin:$PATH"
+        # Only add to bashrc if not already there
+        if ! grep -q '$HOME/.local/bin' "$HOME/.bashrc" 2>/dev/null; then
+            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc"
+        fi
+    fi
+fi
+
+# Check if we need to install (only if running from source directory AND not already in install dir)
+NEED_INSTALL=0
+if [[ "$SCRIPT_DIR" != "$INSTALL_DIR" ]]; then
+    # Check if pss_native exists in install dir
+    if [ ! -f "$INSTALL_DIR/pss_native" ]; then
+        NEED_INSTALL=1
+    fi
+fi
+
+# Auto-install if needed
+if [ $NEED_INSTALL -eq 1 ]; then
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "  PSS First-Time Setup"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    
+    # Build compiler if needed
+    if [ ! -f "$SCRIPT_DIR/pss_native" ]; then
+        echo "[1/2] Building PSS compiler..."
+        gcc -O3 "$SCRIPT_DIR/pss_core.c" -o "$SCRIPT_DIR/pss_native" 2>/dev/null || {
+            echo "Error: gcc not found. Please install gcc first."
+            exit 1
+        }
+    fi
+    
+    echo "[2/2] Installing to $INSTALL_DIR..."
+    cp "$SCRIPT_DIR/pss_native" "$INSTALL_DIR/" 2>/dev/null
+    cp "$SCRIPT_DIR/pss" "$INSTALL_DIR/" 2>/dev/null
+    chmod +x "$INSTALL_DIR/pss" "$INSTALL_DIR/pss_native"
+    
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "  ✓ PSS installed successfully!"
+    echo "  You can now use: pss <file.pss>"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+fi
+
+# Execute PSS
+if [ -z "$1" ]; then
+    echo "PSS Programming Language v1.6.4"
+    echo "Usage: pss <file.pss>"
+    exit 0
+fi
+
+# Find pss_native (Prefer local version for development)
+PSS_NATIVE=""
+if [ -f "$SCRIPT_DIR/pss_native" ]; then
+    PSS_NATIVE="$SCRIPT_DIR/pss_native"
+elif [ -f "$INSTALL_DIR/pss_native" ]; then
+    PSS_NATIVE="$INSTALL_DIR/pss_native"
+fi
+
+if [ -z "$PSS_NATIVE" ]; then
+    echo "Error: pss_native not found"
+    exit 1
+fi
+
+# Compile and run
+TMP_ASM="/tmp/pss_$$.s"
+TMP_BIN="/tmp/pss_$$"
+
+"$PSS_NATIVE" $ARCH_FLAG "$1" > "$TMP_ASM" 2>&1
+if [ $? -eq 0 ]; then
+    gcc -nostdlib -no-pie "$TMP_ASM" -o "$TMP_BIN" 2>&1
+    if [ $? -eq 0 ]; then
+        "$TMP_BIN"
+        EXIT_CODE=$?
+        rm -f "$TMP_ASM" "$TMP_BIN"
+        exit $EXIT_CODE
+    else
+        echo "Assembly error:"
+        cat "$TMP_ASM"
+        rm -f "$TMP_ASM"
+        exit 1
+    fi
+else
+    echo "Compilation error"
+    cat "$TMP_ASM"
+    rm -f "$TMP_ASM"
+    exit 1
+fi

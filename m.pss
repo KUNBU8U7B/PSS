@@ -1,0 +1,5 @@
+# PSS Test Script
+a = 100
+b = 50
+print "Hasil:", a + b
+print "Status: Berhasil dijalankan!"

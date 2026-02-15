@@ -1,0 +1,25 @@
+class Orang;
+    nama = ""
+    umur = 0
+    func sapa();
+        print "Halo nama saya", nama
+    end
+end
+
+class Karyawan inherits Orang;
+    posisi = ""
+    func kerja();
+        print nama, "sedang bekerja sebagai", posisi
+    end
+end
+
+manusia = Orang()
+manusia.nama = "Budi"
+manusia.umur = 20
+manusia.sapa()
+
+staf = Karyawan()
+staf.nama = "Antigravity"
+staf.posisi = "AI"
+staf.sapa()  # Dari Orang
+staf.kerja() # Dari Karyawan

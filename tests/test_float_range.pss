@@ -1,0 +1,23 @@
+# PSS v3.0 Test - Float & Range
+print "=== PSS v3.0 Float & Range Test ==="
+
+# Test 1: Float Arithmetic
+print "Test 1: Float Arithmetic"
+a = 10.5
+b = 2.5
+c = a + b
+d = a * b
+e = a / b
+print a, b
+print "10.5 + 2.5 =", c
+print "10.5 * 2.5 =", d
+print "10.5 / 2.5 =", e
+
+# Test 2: For Loop with Range
+print "Test 2: Range Loop"
+# Should print 0, 1, 2, 3, 4
+for i in range(5)
+    print i
+end
+
+print "=== All Tests Complete ==="

@@ -1,0 +1,86 @@
+========================================================
+             PSS PROGRAMMING LANGUAGE v1.3.3
+               DOKUMENTASI SINTAKS LENGKAP
+========================================================
+
+PSS adalah bahasa pemrograman berbasis Assembly murni yang 
+didesain untuk performa ekstrem, penggunaan RAM minimal (<1MB),
+dan kesederhanaan sintaks.
+
+--------------------------------------------------------
+1. DEKLARASI VARIABEL
+--------------------------------------------------------
+Variabel di PSS saat ini mendukung tipe data integer 64-bit.
+Nama variabel harus diawali dengan huruf.
+
+Contoh:
+  a = 10
+  b = 20
+  total = 100
+
+--------------------------------------------------------
+2. OPERATOR ARITMATIKA
+--------------------------------------------------------
+Mendukung operasi dasar antara variabel atau angka literal.
+
+Format: [var] = [var/num] [op] [var/num]
+Operator: +, -, *, /
+
+Contoh:
+  c = a + 5
+  d = a - b
+  e = 10 * 2
+
+--------------------------------------------------------
+3. OUTPUT (PRINT)
+--------------------------------------------------------
+Mencetak nilai variabel atau string langsung ke terminal.
+Menggunakan Buffered I/O 512KB untuk kecepatan maksimal.
+
+Contoh:
+  print a           # Mencetak nilai variabel a
+  print "Halo PSS"  # Mencetak teks string
+
+--------------------------------------------------------
+4. PERCABANGAN (IF - ELSE)
+--------------------------------------------------------
+Mengevaluasi kondisi perbandingan. Mendukung Auto-End.
+
+Contoh:
+  if a > b;
+      print "a lebih besar"
+  else;
+      print "b lebih besar atau sama"
+  end (Opsional di akhir file)
+
+--------------------------------------------------------
+5. PERULANGAN (WHILE & FOR)
+--------------------------------------------------------
+Mendukung perulangan berbasis kondisi.
+
+Contoh (While):
+  while i < 10;
+      print i
+      i = i + 1
+  end
+
+Contoh (For - Syntax PSS):
+  for i < 1000000;
+      print i
+      i = i + 1
+
+--------------------------------------------------------
+6. SINTAKS LANJUTAN (AUTO-END)
+--------------------------------------------------------
+Di PSS v1.3.2+, Anda tidak wajib menulis 'end' jika blok
+tersebut berakhir di baris terakhir file. Kompilator
+akan menutupnya secara otomatis.
+
+--------------------------------------------------------
+7. PERFORMA & LIMITASI
+--------------------------------------------------------
+- RAM: < 1MB
+- Speed: Melampaui C++ (Buffered I/O)
+- OS: Linux x86_64 (Tested on WSL)
+- Compiler: pss_native (Assembled directly to Machine Code)
+========================================================

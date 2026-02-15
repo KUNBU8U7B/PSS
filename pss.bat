@@ -1,2 +1,2 @@
 @echo off
-python "%~dp0pss.py" %*
+python c:\Users\Pongo\Documents\CODING\PSS\pss.py %*

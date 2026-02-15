@@ -1,0 +1,34 @@
+#!/bin/bash
+# PSS CLI v1.4.1 (Auto-Arch Multi-Platform)
+
+if [ -z "$1" ]; then
+    echo "Usage: pss <file.pss>"
+    exit 1
+fi
+
+DIR="$(dirname "$(readlink -f "$0")")"
+INPUT="$1"
+OUTPUT_ASM="output.s"
+TARGET="a.out"
+
+# 1. Detect Architecture
+ARCH_FLAG=""
+UNAME_M=$(uname -m)
+if [[ "$UNAME_M" == "aarch64" || "$UNAME_M" == "arm64" ]]; then
+    ARCH_FLAG="-arm"
+    ASSEMBLER="as" # or gcc
+    LINKER="gcc -nostdlib -no-pie"
+else
+    ARCH_FLAG=""
+    ASSEMBLER="as"
+    LINKER="gcc -nostdlib -no-pie"
+fi
+
+# 2. Compile PSS to Assembly with correct backend
+"$DIR/pss_native" $ARCH_FLAG "$INPUT" > "$OUTPUT_ASM"
+
+# 3. Assemble and Link
+$LINKER "$OUTPUT_ASM" -o "$TARGET"
+
+# 4. Run immediately
+./"$TARGET"

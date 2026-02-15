@@ -1,0 +1,288 @@
+========================================
+BAHASA PEMROGRAMAN PSS (DASAR)
+Versi Pemula / Fast Mode
+========================================
+----------------------------------------
+1. VARIABEL & TIPE DATA
+----------------------------------------
+# Integer (bilangan bulat)
+a = 10
+# Float (bilangan desimal)
+b = 10.5
+# Text (string)
+c = "Pongo"
+# Boolean
+d = true
+----------------------------------------
+2. CASTING / PERUBAHAN TIPE DATA
+----------------------------------------
+# int → float
+e = float(a)
+# int → text
+f = text(a)
+# int → bool
+g = bool(a)
+# float → int
+h = int(b)
+# float → text
+i = text(b)
+# float → bool
+j = bool(b)
+# text → bool
+# text akan bernilai true jika tidak kosong
+k = bool(c)
+# boolean → tipe lain
+l = int(d)
+m = float(d)
+n = text(d)
+----------------------------------------
+3. OUTPUT (PRINT)
+----------------------------------------
+print a, b, c, d
+print e, f, g
+print h, i, j
+print k, l, m, n
+----------------------------------------
+4. KOMENTAR
+----------------------------------------
+# komentar satu baris
+/*
+komentar
+banyak baris
+*/
+----------------------------------------
+5. TYPEOF (CEK TIPE DATA)
+----------------------------------------
+print typeof(a)   # int
+print typeof(b)   # float
+print typeof(c)   # text
+print typeof(d)   # bool
+----------------------------------------
+6. OPERATOR ARITMATIKA
+----------------------------------------
+a = 10
+b = 5
+print a + b    # penjumlahan
+print a - b    # pengurangan
+print a * b    # perkalian
+print a / b    # pembagian
+print a % b    # sisa bagi
+print a ** b   # pangkat
+----------------------------------------
+7. OPERATOR PERBANDINGAN
+----------------------------------------
+print a > b
+print a < b
+print a == b
+print a != b
+print a >= b
+print a <= b
+----------------------------------------
+8. OPERATOR LOGIKA
+----------------------------------------
+print a and b
+print a or b
+print not a
+----------------------------------------
+9. OPERATOR PENUGASAN
+----------------------------------------
+a = 10
+a += 5
+a -= 3
+a *= 2
+a /= 4
+a %= 2
+a **= 3
+----------------------------------------
+10. INCREMENT & DECREMENT
+----------------------------------------
+a++
+a--
+----------------------------------------
+11. NILAI NULL
+----------------------------------------
+a = null
+if a == null;
+    print "a is null"
+else;
+    print "a is not null"
+----------------------------------------
+12. PERCABANGAN
+----------------------------------------
+# if
+if a > b;
+    print "a lebih besar"
+# if - else
+if a < b;
+    print "a lebih kecil"
+else;
+    print "a lebih besar atau sama"
+# if - elif - else
+if a > b;
+    print "a > b"
+elif a < b;
+    print "a < b"
+else;
+    print "a == b"
+----------------------------------------
+13. SWITCH CASE
+----------------------------------------
+switch a;
+    case 1;
+        print "satu"
+    case 2;
+        print "dua"
+    default;
+        print "lainnya"
+----------------------------------------
+14. PERULANGAN
+----------------------------------------
+# for
+for i in range(5);
+    print i
+# while
+while a > 0;
+    print a
+    a--
+# do while
+do;
+    print a
+    a--
+while a > 0
+# foreach
+foreach i in [1,2,3];
+    print i
+----------------------------------------
+15. STRUKTUR DATA
+----------------------------------------
+# List (array)
+mylist = [1,2,3]
+mylist.add(4)
+mylist.remove(2)
+print mylist
+print mylist.length
+print mylist[0]
+# Dictionary (key-value)
+mydict = {"a":1, "b":2}
+mydict.add("c", 3)
+mydict.remove("a")
+print mydict
+# Set (unik)
+myset = {1,2,3}
+myset.add(4)
+myset.remove(2)
+print myset
+# Tuple (tidak bisa diubah)
+mytuple = (1,2,3)
+----------------------------------------
+16. FUNCTION
+----------------------------------------
+# tanpa parameter
+func hello();
+    print "Hello"
+# dengan parameter
+func tambah(a, b);
+    return a + b
+# parameter default
+func kali(a, b = 2);
+    return a * b
+print tambah(3, 4)
+print kali(5)
+----------------------------------------
+17. CLASS & OBJECT (OOP DASAR)
+----------------------------------------
+class Orang;
+    nama = ""
+    umur = 0
+    func sapa();
+        print "Halo nama saya " + nama
+# membuat objek
+manusia = Orang()
+manusia.nama = "Budi"
+manusia.umur = 20
+manusia.sapa()
+----------------------------------------
+18. INPUT
+----------------------------------------
+nama = input("Masukkan nama: ")
+umur = int_input("Masukkan umur: ")
+print nama, umur
+----------------------------------------
+19. FILE HANDLING
+----------------------------------------
+# tulis file
+file = open("data.txt", "w")
+file.write("Hello PSS")
+file.close()
+# baca file
+file = open("data.txt", "r")
+print file.read()
+file.close()
+# tambah isi file
+file = open("data.txt", "a")
+file.write(" World")
+file.close()
+----------------------------------------
+20. ERROR HANDLING
+----------------------------------------
+try;
+    print 10 / 0
+catch;
+    print "Terjadi error"
+----------------------------------------
+21. KONSTANTA
+----------------------------------------
+const PI = 3.14
+----------------------------------------
+22. BREAK & CONTINUE
+----------------------------------------
+# break
+for i in range(10);
+    if i == 5;
+        break
+    print i
+# continue
+for i in range(10);
+    if i == 5;
+        continue
+    print i
+----------------------------------------
+23. RETURN
+----------------------------------------
+func tambah(a, b);
+    return a + b
+print tambah(3, 4)
+----------------------------------------
+24. USE (IMPORT LIBRARY)
+----------------------------------------
+use math
+print math.sqrt(16)
+print math.pow(2, 3)
+----------------------------------------
+25. DESTRUCTOR (OOP)
+----------------------------------------
+class Mobil;
+    merk = ""
+    func hapus();
+        print "Mobil " + merk + " dihapus"
+# membuat objek
+mobil = Mobil()
+mobil.merk = "Toyota"
+# saat objek dihapus, destructor dipanggil
+# di PSS, destructor dipanggil otomatis saat variabel keluar scope
+# atau bisa juga dihapus manual
+del mobil
+----------------------------------------
+26. INHERITANCE (PEWARISAN)
+----------------------------------------
+class Hewan;
+    nama = ""
+    func makan();
+        print nama + " sedang makan"
+class Kucing inherits Hewan;
+    func mengeong();
+        print nama + " mengeong"
+kucing = Kucing()
+kucing.nama = "Oyen"
+kucing.makan()      # dari class Hewan
+kucing.mengeong()   # dari class Kucing

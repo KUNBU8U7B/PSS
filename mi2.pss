@@ -1,0 +1,35 @@
+func tambah(a, b);
+    return a + b
+
+
+func kurang(a, b);
+    return a - b
+
+func kali(a, b);
+    return a * b
+
+
+func bagi(a, b);
+    if b == 0;
+        print "Error: Pembagian dengan nol"
+        return null
+    else;
+        return a / b
+
+
+func kalkulator();
+    print "====KALKULATOR====\n1.tambah\n2.kurang\n3.kali\n4.bagi\nmasukan pilihan:"
+    pilihan = int_input()
+    a = float_input("masukan angka pertama:")
+    b = float_input("masukan angka kedua:")
+    if pilihan == 1;
+        print tambah(a, b)
+    elif pilihan == 2;
+        print kurang(a, b)
+    elif pilihan == 3;
+        print kali(a, b)
+    elif pilihan == 4;
+        print bagi(a, b)
+
+
+kalkulator()

@@ -1,0 +1,32 @@
+# PSS v3.0 Test - Casting, Lists, Power
+print "=== PSS v3.0 Feature Test ==="
+
+# Test 1: Casting
+print "Test 1: Casting"
+a = 10
+b = float(a)
+c = int(b)
+print a, b, c
+
+# Test 2: Power operator
+print "Test 2: Power Operator"
+x = 2
+y = 10
+z = x ** y
+print "2 ** 10 =", z
+
+# Test 3: List
+print "Test 3: List Operations"
+mylist = [1, 2, 3]
+mylist.add(4)
+mylist.add(5)
+
+# Test 4: Register Pinning (first 4 variables should use R12-R15)
+print "Test 4: Register Variables"
+r1 = 100
+r2 = 200
+r3 = 300
+r4 = 400
+print r1, r2, r3, r4
+
+print "=== All Tests Complete ==="

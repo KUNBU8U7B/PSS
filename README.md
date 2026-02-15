@@ -1,58 +1,38 @@
-# PSS (Simple Programming Script) v1.0
+# PSS - Bahasa Pemrograman Performa Tinggi
 
-PSS is a lightweight, indentation-based programming language that transpiles to optimized C. It's designed to be human-friendly, fast, and easy to run on low-end hardware.
+## Versi 3.4.2 - Robust Edition
 
-## Features
-- **Clean Syntax**: Indentation-based (like Python) but with a focus on simplicity.
-- **High Performance**: Transpiles directly to C with GCC `-O3` optimization.
-- **OOP Support**: Classes and methods out of the box.
-- **Lightweight**: Zero heavy dependencies, ideal for WSL, Linux, and low-end devices.
+PSS adalah bahasa pemrograman yang dikompilasi langsung ke assembly x86_64, dirancang untuk performa maksimal dengan penggunaan memori minimal.
 
-## Installation
+## Dokumentasi Lengkap
+👉 **[Daftar Sintaks Lengkap & Penjelasan](file:///c:/Users/Pongo/Documents/CODING/PSS/README_SYNTAX.md)**
 
-### Easy Install (Automatic)
-**Linux / WSL:**
+## Instalasi
+
+### Instalasi Otomatis (Pertama Kali)
+Cukup jalankan program PSS sekali:
 ```bash
-bash install.sh
+./pss <file.pss>
 ```
 
-### Android (via Termux)
-1. Unduh **Termux** (disarankan dari F-Droid).
-2. Buka Termux dan jalankan perintah:
+PSS akan otomatis menginstal dirinya ke sistem (user-level di `/usr/local/bin` atau `~/.local/bin`).
+
+Setelah itu, gunakan langsung dari mana saja:
 ```bash
-pkg install python clang git -y
-git clone <URL_REPOLO>
-cd PSS
-bash install.sh
-```
-3. PSS siap digunakan! Ketik `pss test.pss`.
-
-**Windows (PowerShell):**
-```powershell
-.\install.ps1
+pss <file.pss>
 ```
 
-### Manual Install
-**Windows**
-1. Clone this repository.
-2. Add the folder path to your System Environment `PATH`.
-3. Run `pss test.pss`.
+### Platform yang Didukung
+- ✅ WSL (Windows Subsystem for Linux)
+- ✅ Termux (Android)
+- ✅ Ubuntu / Debian / Arch / Fedora
+- ✅ Semua distribusi Linux dengan gcc
 
-### Linux / WSL
-1. Clone this repository.
-2. Make the wrapper executable: `chmod +x pss`.
-3. (Optional) Create an alias: `alias pss='/path/to/pss/pss'`.
+## Ringkasan Fitur v3.4.2
+- **Operator Logika**: `and`, `or`, `not`
+- **Blok Kontrol**: `if-elif-else`, `while`, `for range`, `func` (semua diakhiri `end`)
+- **OOP Dasar**: `class`, `inherits`, `self`
+- **Performa Ekstrim**: Penggunaan RAM < 1MB, Buffered I/O 512KB.
 
-## Usage
-```pss
-program hello
-    print "Hello, PSS!"
-end
-```
-Run it:
-```bash
-pss hello.pss
-```
-
-## Contributing
-PSS is open-source! Feel free to submit issues or pull requests.
+---
+Open Source - Dikembangkan untuk pendidikan dan performa tinggi

@@ -1,0 +1,8 @@
+Package: pss
+Version: 1.4.7
+Section: devel
+Priority: optional
+Architecture: all
+Maintainer: Pongo <pongo@pss.lang>
+Description: PSS Programming Language - Ultra Fast Native compiler.
+ A high-performance, assembly-based programming language designed for minimal RAM usage and maximum speed.
