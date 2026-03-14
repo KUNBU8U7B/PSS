@@ -1,0 +1,8 @@
+# Test PSS Input
+print "===== PSS Input Test ====="
+nama = input("Siapa namamu? ")
+print "Halo " + nama
+print "Senang bertemu denganmu!"
+
+angka = int_input("Masukkan angka untuk dikalikan 2: ")
+print "Hasilnya:", angka * 2

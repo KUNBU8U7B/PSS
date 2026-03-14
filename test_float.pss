@@ -1,0 +1,3 @@
+
+a = float_input("Enter decimal:")
+print a

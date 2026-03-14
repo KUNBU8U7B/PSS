@@ -1,0 +1,145 @@
+# ========================================
+# PSS COMPREHENSIVE SYNTAX TEST (v0.1)
+# ========================================
+
+print "--- STARTING PSS CORE SYNTAX TEST ---"
+
+# 1. VARIABEL & TIPE DATA
+a = 10
+b = 10.5
+c = "Pongo"
+d = true
+print "Variabel Test:", a, b, c, d
+
+# 2. OPERATOR ARITMATIKA
+print "Arithmetic Test:"
+print "10 + 5 =", 10 + 5
+print "10 - 5 =", 10 - 5
+print "10 * 5 =", 10 * 5
+print "10 / 5 =", 10 / 5
+print "10 % 3 =", 10 % 3
+print "2 ** 3 =", 2 ** 3
+
+# 3. OPERATOR PERBANDINGAN
+print "Comparison Test:"
+print "10 > 5 is", 10 > 5
+print "10 < 5 is", 10 < 5
+print "10 == 10 is", 10 == 10
+print "10 != 5 is", 10 != 5
+
+# 4. OPERATOR LOGIKA
+print "Logic Test:"
+print "true and false is", true and false
+print "true or false is", true or false
+# print "not true is", not true
+
+# 5. OPERATOR PENUGASAN (Assignment)
+print "Assignment Test:"
+x = 20
+x += 10
+print "x += 10 ->", x
+x -= 5
+print "x -= 5 ->", x
+x *= 2
+print "x *= 2 ->", x
+
+# 6. INCREMENT & DECREMENT
+a++
+print "a++ ->", a
+a--
+print "a-- ->", a
+
+# 7. PERCABANGAN (IF-ELIF-ELSE)
+print "Conditional Test:"
+score = 85
+if score >= 90;
+    print "Grade: A"
+elif score >= 80;
+    print "Grade: B"
+elif score >= 70;
+    print "Grade: C"
+else;
+    print "Grade: F"
+
+# 8. PERULANGAN (WHILE)
+print "While Loop Test:"
+count = 3
+while count > 0;
+    print "Count:", count
+    count--
+
+# 9. PERULANGAN (FOR RANGE)
+print "For Range Test:"
+for i in range(3);
+    print "Index:", i
+
+# 10. LIST OPERATIONS (Data Structure)
+print "List Test:"
+mylist = [1, 2, 3]
+print "Initial List:", mylist[0], mylist[1], mylist[2]
+print "Length:", mylist.length
+mylist.add(4)
+print "After Add(4):", mylist[3]
+print "New Length:", mylist.length
+mylist.remove(1) # Removes element at index 1 (value 2)
+print "After Remove(1):", mylist[0], mylist[1], mylist[2]
+
+# 11. FUNCTION
+print "Function Test:"
+func greet(name);
+    print "Hello", text(name)
+
+func add_nums(x, y);
+    return x + y
+
+greet("PSS")
+res = add_nums(15, 25)
+print "15 + 25 =", res
+
+# 12. CLASS & OOP (Inheritance)
+print "OOP Test:"
+class Animal;
+    name = ""
+    func speak();
+        print self.name, "makes a sound"
+
+class Dog inherits Animal;
+    func speak();
+        print self.name, "barks: Woof!"
+
+my_dog = Dog()
+my_dog.name = "Rex"
+my_dog.speak()
+
+# 13. INPUT (Note: Requires user interaction if run manually)
+# name = input("Enter name: ")
+# age = int_input("Enter age: ")
+# print "Input result:", name, age
+
+# 14. NULL & DEL
+print "Null/Del Test:"
+obj = null
+if obj == null;
+    print "obj is null"
+print "typeof(10) =", typeof(10)
+
+# 15. SWITCH CASE
+print "Switch Test:"
+level = 1
+switch level;
+    case 1;
+        print "Level 1"
+    case 2;
+        print "Level 2"
+    default;
+        print "Unknown Level"
+
+# 16. DO-WHILE
+print "Do-While Test:"
+dcount = 2
+do;
+    print "D-Count:", dcount
+    dcount--
+while dcount > 0
+
+print "--- PSS CORE SYNTAX TEST COMPLETED ---"

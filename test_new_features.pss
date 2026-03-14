@@ -1,0 +1,36 @@
+# Test Logical Operators
+print "Testing Logical Operators..."
+a = true
+b = false
+
+if a and b;
+    print "Error: true and false is true"
+else;
+    print "true and false is false (OK)"
+
+if a or b;
+    print "true or false is true (OK)"
+else;
+    print "Error: true or false is false"
+
+# Test Short-circuiting (if possible to observe side effects, but here simple logic)
+print "Testing Type Casting..."
+x = 10.7
+y = int(x)
+print "int(10.7) =", y # Expected 10
+
+z = bool(y)
+print "bool(10) =", z # Expected true
+
+# Test Loop Control
+print "Testing Loop Control..."
+i = 0
+while i < 10;
+    i++
+    if i == 5;
+        continue # Skip printing 5
+    if i == 8;
+        break # Stop at 8
+    print i
+
+print "Loop test done."
